@@ -1,0 +1,50 @@
+{{ GRAMEX(cache=[]) }}{% from cssmin import cssmin %}{% apply cssmin %}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info p {
+    margin: 0 0 5px;
+    color: #777;
+}
+/* The main logo is displayed on the top left of the page */
+.main-logo {
+  float: left;
+  height: 50px;         /* Take up the full height of the navbar */
+  margin-right: 15px;   /* Just add a bit of padding between the logo and the rest of the stuff to its right */
+}
+.navbar {
+  margin-bottom: 0px;
+}
+/* Social media icons are added into a .navbar in the footer */
+.navbar-nav>li>a.social-media-icon {
+  height: 20px;                 /* Set the height */
+  padding: 15px 0 15px 10px;    /* ... and the padding. No space on the right. Rest is standard. */
+}
+.social-media-icon:hover path {
+  fill: #5b9bd5;                /* Hover over the icon to get an Office 2013 blue */
+}
+
+/* Utility class that makes text immune to pointer events -- hover, click, etc.
+   Most charts (except wordcloud) should have this class on the SVG. */
+.transparent-text text {
+  pointer-events: none;
+}
+
+/* Define a .navbar-static-bottom for the footer just like .navbar-static-top */
+@media (min-width: 768px) {
+  .navbar-static-bottom {
+    border-radius: 0;
+  }
+  .navbar-static-bottom {
+    z-index: 1000;
+    border-width: 1px 0 0;
+    margin-bottom: 0;
+    margin-top: 0px;
+  }
+}
+{% end %}

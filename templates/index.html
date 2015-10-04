@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <style>
+   html, body, .map {
+      height:100%;
+      width:100%;
+      padding:0px;
+      margin:0px;
+   }
+  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.v3.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.label.css') }}">
+
+</head>
+<body>
+    <div id="topojson-color-map" class="map"></div>
+
+<script src="{{ url_for('static', filename = 'js/jquery2.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/bootstrap.v3.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/topojson.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/leaflet.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/leaflet-heat.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/leaflet.label.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/d3.v3.min.js') }}"></script>
+<script>
+var topojson_color_map = L.map('topojson-color-map', {
+  center: [12.9667, 77.5667],
+  zoom: 10,
+});
+var crime_layer = new L.LayerGroup();
+
+// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(topojson_color_map);
+
+L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+}).addTo(topojson_color_map);
+d3.csv("static/data_1.csv", function(data) {
+    var items = []
+    $.each(data, function(index, val){
+        items.push([parseFloat(val['Latitude']), parseFloat(val['Longitute']), 1])
+        L.circle([val['Latitude'], val['Longitute']], 80, {
+            color:'black',
+            fillColor:'red',
+            fillOpacity:2,
+            opacity:1,
+            weight:.5
+        }).addTo(crime_layer).bindLabel('Date of Occurrence: ' + val['Date of Occurrence of the Mugging Incident  (YY/MM/DD)'] + ", Victim's Gender: " + val["Victim's Gender"] +", Victim's AGE: " + val["Victim's AGE "])
+
+    })
+var heat = L.heatLayer(items, {
+    maxZoom: 18,
+}).addTo(topojson_color_map);
+
+
+});
+
+topojson_color_map.addLayer(crime_layer);
+
+// var heat = L.heatLayer(addressPoints, {
+//     maxZoom: 18,
+// }).addTo(topojson_color_map);
+
+</script>
+
+</body>
+</html>
