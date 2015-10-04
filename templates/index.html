@@ -41,27 +41,22 @@ d3.csv("static/data_1.csv", function(data) {
     var items = []
     $.each(data, function(index, val){
         items.push([parseFloat(val['Latitude']), parseFloat(val['Longitute']), 1])
-        L.circle([val['Latitude'], val['Longitute']], 80, {
+        L.circle([val['Latitude'], val['Longitute']], 10, {
             color:'black',
             fillColor:'red',
             fillOpacity:2,
             opacity:1,
             weight:.5
-        }).addTo(crime_layer).bindLabel('Date of Occurrence: ' + val['Date of Occurrence of the Mugging Incident  (YY/MM/DD)'] + ", Victim's Gender: " + val["Victim's Gender"] +", Victim's AGE: " + val["Victim's AGE "])
-
-    })
-var heat = L.heatLayer(items, {
-    maxZoom: 18,
-}).addTo(topojson_color_map);
-
-
+        }).addTo(crime_layer)
+    });
+    var heat = L.heatLayer(items, {
+        maxZoom: 18,
+        radius: 80
+    }).addTo(topojson_color_map);    
 });
 
 topojson_color_map.addLayer(crime_layer);
 
-// var heat = L.heatLayer(addressPoints, {
-//     maxZoom: 18,
-// }).addTo(topojson_color_map);
 
 </script>
 

@@ -1,4 +1,3 @@
-{{ GRAMEX(cache=[]) }}{% from cssmin import cssmin %}{% apply cssmin %}
 
 /* The main logo is displayed on the top left of the page */
 .main-logo {
@@ -34,4 +33,3 @@
     margin-top: 20px;
   }
 }
-{% end %}
